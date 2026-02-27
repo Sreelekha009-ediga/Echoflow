@@ -1,0 +1,31 @@
+# Core
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9      # for file upload
+pydantic==2.8.2
+
+# Speech → Text
+openai-whisper @ git+https://github.com/openai/whisper.git  # we will use the released version on PyPI
+
+# NLP & ML
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.1
+tensorflow==2.17.0         # for CNN emotion model
+keras==3.5.0
+
+# Text improvement
+language-tool-python==2.8.1
+deep-translator==1.11.4
+
+# Utilities
+python-multipart==0.0.9    # for file uploads in FastAPI
+pydantic==2.8.2
+tqdm==4.66.5
+
+# Hugging Face datasets + extras for emotion
+datasets==2.21.0
+huggingface-hub==0.25.1
+
+transformers==4.44.2     # for tokenizer (optional but helpful)
+nltk==3.9.1
