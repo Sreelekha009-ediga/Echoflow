@@ -29,3 +29,5 @@ huggingface-hub==0.25.1
 
 transformers==4.44.2     # for tokenizer (optional but helpful)
 nltk==3.9.1
+
+gramformer @ git+https://github.com/PrithivirajDamodaran/Gramformer.git
