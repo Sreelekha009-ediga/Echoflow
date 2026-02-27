@@ -59,22 +59,22 @@ def predict_emotion(text: str, model_type: str = "cnn") -> dict:
     emotion = label_map.get(int(pred), "unknown")
     return {"emotion": emotion, "cleaned_text": cleaned}
 
-_gf = None  # global for lazy load
+_gf = None
 
 def correct_grammar(text: str) -> str:
     global _gf
-    if _gf is None:
-        _gf = Gramformer(models=1)  # 1 = correcter model (most accurate)
-
     try:
+        if _gf is None:
+            from gramformer import Gramformer
+            _gf = Gramformer(models=1)
         corrections = _gf.correct(text, max_candidates=1)
         if corrections:
             return corrections[0]
         else:
             return text
     except Exception as e:
-        print(f"Gramformer error: {e}")
-        return text  # fallback to original
+        print(f"Gramformer failed on Render: {str(e)} - returning original text")
+        return text  # Fallback to original text - no crash!
 
 def translate_text(text: str, target_lang: str = "ta") -> str:  # ta = Tamil, hi = Hindi, etc.
     try:
