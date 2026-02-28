@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import Optional
 from pipeline.inference import predict_emotion, transcribe_and_analyze
 import os
+import traceback
 
 app = FastAPI(
     title="Echoflow API",
@@ -56,14 +57,15 @@ async def predict(
             "model_used": model
         }
     except Exception as e:
+        traceback.print_exc()  # ← prints full stack trace to console
         raise HTTPException(status_code=500, detail=f"Emotion prediction failed: {str(e)}")
 
+# Same for /transcribe
 @app.post("/transcribe", response_model=TranscriptionResponse)
 async def transcribe(
     audio: UploadFile = File(...),
     model: str = Form("cnn")
 ):
-    # Optional: limit file size (e.g., 10MB)
     if audio.size > 10 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Audio file too large (max 10MB)")
 
@@ -78,7 +80,7 @@ async def transcribe(
             model_used=model
         )
     except Exception as e:
+        traceback.print_exc()  # ← critical line
         raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
-
 # For deployment: do NOT run uvicorn here
 # Render / Railway / Docker will run: uvicorn main:app --host 0.0.0.0 --port $PORT
