@@ -12,22 +12,20 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS - allow React frontend (update origins in production)
+# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],           # Change to ["https://your-vercel-domain.vercel.app"] later
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Response model for /predict
 class EmotionResponse(BaseModel):
     emotion: str
     confidence: float
     model_used: str
 
-# Response model for /transcribe
 class TranscriptionResponse(BaseModel):
     transcribed_text: str
     emotion: str
@@ -57,10 +55,9 @@ async def predict(
             "model_used": model
         }
     except Exception as e:
-        traceback.print_exc()  # ← prints full stack trace to console
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Emotion prediction failed: {str(e)}")
 
-# Same for /transcribe
 @app.post("/transcribe", response_model=TranscriptionResponse)
 async def transcribe(
     audio: UploadFile = File(...),
@@ -80,7 +77,5 @@ async def transcribe(
             model_used=model
         )
     except Exception as e:
-        traceback.print_exc()  # ← critical line
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
-# For deployment: do NOT run uvicorn here
-# Render / Railway / Docker will run: uvicorn main:app --host 0.0.0.0 --port $PORT
