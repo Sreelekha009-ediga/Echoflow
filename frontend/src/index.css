@@ -66,3 +66,57 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark mode support */
+:root {
+  --bg-primary: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #111827;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --card-bg: #1f2937;
+    --card-border: #374151;
+  }
+}
+
+body {
+  @apply bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-950 min-h-screen text-gray-900 dark:text-gray-100;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+  color: var(--text-primary);
+}
+
+.card h3, .card h4 {
+  color: var(--text-primary);
+}
+
+.card p {
+  color: var(--text-secondary);
+}
+
+/* Fix white-on-white issue explicitly */
+.card p, .card span {
+  color: var(--text-secondary) !important;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}

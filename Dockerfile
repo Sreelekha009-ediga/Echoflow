@@ -1,24 +1,25 @@
-# Use official Python 3.11 slim image (lightweight, compatible with your deps)
+# Use official Python 3.11 slim image
 FROM python:3.11-slim
 
-# Install system dependencies (ffmpeg + audio libs for Whisper)
+# Install system dependencies: ffmpeg, libsndfile1, git (for pip git deps)
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libsndfile1 \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory to backend
+# Set working directory
 WORKDIR /app
 
-# Copy only backend (since frontend is separate)
+# Copy backend folder
 COPY backend/ /app/
 
-# Install Python dependencies
+# Upgrade pip and install requirements
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Expose the port Render expects
+# Expose port (Render injects $PORT)
 EXPOSE $PORT
 
-# Start command (Render will inject $PORT)
+# Start the app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]

@@ -12,6 +12,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -79,3 +83,5 @@ async def transcribe(
     except Exception as e:
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
+
+        
