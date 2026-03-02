@@ -2,7 +2,7 @@
 
 **AI-powered system that converts speech to text, detects human emotions, corrects grammar, and provides multilingual translation.**
 
-GitHub: https://github.com/YOUR-USERNAME/echoflow-speech-emotion
+GitHub: https://github.com/Sreelekha009-ediga/echoflow-speech-emotion
 
 ### Key Highlights (resume-ready bullet points)
 - Developed an AI-driven system that converts speech to text and detects human emotions using Machine Learning and NLP techniques.
